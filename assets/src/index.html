@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+          name="viewport">
+    <title>GreyCells Payment</title>
+    <!--    {{!&#45;&#45; <link rel="icon" href="/assets/img/title_icon.png"> &#45;&#45;}}-->
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="js/jquery-3-4-1.min.js">
+    </script>
+    <script src="js/app.js">
+    </script>
+</head>
+
+<body>
+<div class="main-content">
+    <header>
+        <h1>
+            GreyCells
+        </h1>
+        <br>
+        <p class="tag-lxine">Payment integration</p>
+
+
+    </header>
+    <div>
+        <h4>
+            Please do not go back and wait while we are processing your payment. This can take a few
+            minutes.
+        </h4>
+    </div>
+    <!--    {{!&#45;&#45; <div class="loader"></div> &#45;&#45;}}-->
+    <div class="please-wait">
+        Please wait...
+    </div>
+    <div>
+        <form action='' id="form" method='post'>
+            <input id="udf1" name="udf1" type="hidden" value=""/>
+            <input id="udf2" name="udf2" type="hidden" value=""/>
+
+            <input name="lastname" type="hidden" value=""/>
+            <input id="firstname" name="firstname" type="hidden" value=""/>
+            <input id="phone" name="phone" type="hidden" value=""/>
+            <input id="email" name="email" type="hidden" value=""/>
+
+            <input id="curl" name="curl" type="hidden" value=""/>
+            <input id="furl" name="furl" type="hidden" value=""/>
+            <input id="surl" name="surl" type="hidden" value=""/>
+
+            <input id="key" name="key" type="hidden" value=""/>
+            <input id="hash" name="hash" type="hidden" value=""/>
+
+            <input id="txnid" name="txnid" type="hidden" value=""/>
+            <input id="productinfo" name="productinfo" type="hidden" value=""/>
+            <input id="amount" name="amount" type="hidden" value=""/>
+            <!--            {{!&#45;&#45; <input type="submit" value="submit"> &#45;&#45;}}-->
+        </form>
+
+    </div>
+
+    <div class="error" id="error"></div>
+
+
+</div>
+<footer class="footer">
+    Powered by Kalinga Soft
+</footer>
+
+</body>
+
+</html>
