@@ -129,7 +129,7 @@ mixin AccountService on DataManager {
     urlQueryParams.append("callback", "StudFeeReceipt");
     urlQueryParams.append("loginUserId", user?.getUserId);
     urlQueryParams.append("txtStudRegNo", user?.getUserId);
-
+    urlQueryParams.append("studentId", student?.getStudentId);
     urlQueryParams.append("hdnTransactionId", id);
     urlQueryParams.append("accessToken", tokens["accessToken"]);
     var response =
@@ -143,6 +143,7 @@ mixin AccountService on DataManager {
 
       // Now you have the JSON string, you can parse it using json.decode
       if (jsonString.trim().isNotEmpty) {
+        log(jsonString);
         Map<String, dynamic> jsonMap = json.decode(jsonString);
         return ReceiptModel.fromJson(jsonMap);
       }

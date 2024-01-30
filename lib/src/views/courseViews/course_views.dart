@@ -42,8 +42,10 @@ class _MyCourseViewsState extends State<MyCourseViews> {
         loading = false;
       });
     } else {
-      setState(() {
-        loading = false;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        setState(() {
+          loading = false;
+        });
       });
     }
   }
@@ -51,7 +53,9 @@ class _MyCourseViewsState extends State<MyCourseViews> {
   @override
   void initState() {
     super.initState();
-    _onCreate(DateTime.now());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _onCreate(DateTime.now());
+    });
   }
 
   Widget _buildBody(TimeTableModel course, Function(DateTime date) onTap) {
@@ -116,8 +120,12 @@ class _MyCourseViewsState extends State<MyCourseViews> {
         title: Text("Timetable"),
       ),
       backgroundColor: Colors.grey[50],
-      body: FutureMania(
-        future: _futureResponse,
+      body: loading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : FutureMania(
+              future: _futureResponse,
 //        onFailed: (context, Failure failed) {
 //          print("Failed");
 //          return Center(
@@ -125,29 +133,29 @@ class _MyCourseViewsState extends State<MyCourseViews> {
 //            title: "No Data Available",
 //          ));
 //        },
-        onError: (context, Failure failed) {
-          print("Error");
+              onError: (context, Failure failed) {
+                print("Error");
 
-          return Center(
-            child: MyNotFound(
-              title: "${failed.responseMessage}",
-              subtitle: "Check your internet connectivity.",
-              onRetry: _onCreate,
+                return Center(
+                  child: MyNotFound(
+                    title: "${failed.responseMessage}",
+                    subtitle: "Check your internet connectivity.",
+                    onRetry: _onCreate,
+                  ),
+                );
+              },
+              onSuccess: (context, TimeTableModel course) {
+                return _buildBody(
+                  course,
+                  (date) {
+                    setState(() {
+                      selectedWeekday = date;
+                      _onCreate(date);
+                    });
+                  },
+                );
+              },
             ),
-          );
-        },
-        onSuccess: (context, TimeTableModel course) {
-          return _buildBody(
-            course,
-            (date) {
-              setState(() {
-                selectedWeekday = date;
-                _onCreate(date);
-              });
-            },
-          );
-        },
-      ),
     );
   }
 }

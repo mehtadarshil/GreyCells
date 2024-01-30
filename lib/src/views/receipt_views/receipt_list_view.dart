@@ -7,6 +7,7 @@ import 'package:greycell_app/src/manager/main_model.dart';
 import 'package:greycell_app/src/models/payment/receipt_list_model.dart';
 import 'package:greycell_app/src/services/tokenService/token_service.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class ReceiptListView extends StatefulWidget {
   const ReceiptListView({Key? key, required this.mainModel}) : super(key: key);
@@ -133,11 +134,15 @@ class _ReceiptListViewState extends State<ReceiptListView> {
                     )
                   : receiptList != null && receiptList!.getRctVector!.isNotEmpty
                       ? ListView.separated(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
                           itemCount: receiptList!.getRctVector!.length,
                           itemBuilder: (context, index) {
                             var data = receiptList!.getRctVector![index];
-                            return ReceiptCard(data: data);
+                            return ReceiptCard(
+                              data: data,
+                              mainModel: widget.mainModel,
+                            );
                           },
                           separatorBuilder: (BuildContext context, int index) {
                             return SizedBox(
@@ -158,14 +163,22 @@ class _ReceiptListViewState extends State<ReceiptListView> {
   }
 }
 
-class ReceiptCard extends StatelessWidget {
+class ReceiptCard extends StatefulWidget {
   const ReceiptCard({
     Key? key,
     required this.data,
+    required this.mainModel,
   }) : super(key: key);
 
   final List<String> data;
+  final MainModel mainModel;
 
+  @override
+  State<ReceiptCard> createState() => _ReceiptCardState();
+}
+
+class _ReceiptCardState extends State<ReceiptCard> {
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -186,7 +199,7 @@ class ReceiptCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  data.elementAt(3),
+                  widget.data.elementAt(3),
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
@@ -197,7 +210,7 @@ class ReceiptCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Text(
-                  data.elementAt(2),
+                  widget.data.elementAt(2),
                   style: TextStyle(
                       fontSize: 11,
                       color: Colors.white,
@@ -213,11 +226,50 @@ class ReceiptCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  data.elementAt(0),
+                  widget.data.elementAt(0),
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w300),
                 ),
               ),
-              Text(data.elementAt(1))
+              Text(widget.data.elementAt(1))
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                  child: ElevatedButton(
+                onPressed: () async {
+                  setState(() {
+                    loading = true;
+                  });
+                  final DataFilter dataFilter = DataFilter();
+                  var tokenResponse = await dataFilter.getToken(
+                      serverUrl: RestAPIs.GREYCELL_TOKEN_URL,
+                      apiCode: ApiAuth.STDNFEE_RECEIPT_REPORT);
+                  var data = await widget.mainModel.getReceiptToView(
+                      tokens: tokenResponse!, id: widget.data.elementAt(4));
+                  log((data?.toJson()).toString());
+                  if (data != null && data.getReportFilePath != null) {
+                    launchUrlString(data.getReportFilePath!,
+                        mode: LaunchMode.externalApplication);
+                  }
+                  setState(() {
+                    loading = false;
+                  });
+                },
+                child: loading
+                    ? SizedBox(
+                        height: 12,
+                        width: 12,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text("Download Receipt"),
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10))),
+              )),
             ],
           )
         ],

@@ -55,6 +55,7 @@ class ApiAuth {
   static final String ONLINE_PAY_RPT = "ONLINE_PAY_RPT";
   static final String PAY_MESSAGE_CALLBACKS = 'onlinePayMessage';
   static final String STDNPAYMENT_DETAILS_LIST = "STDNPAYMENT_DETAILS_LIST";
+  static final String STDNFEE_RECEIPT_REPORT = "STDNFEE_RECEIPT_REPORT";
 
   // Faculty / Staff
   static final String STAFF_PPROFILE_API_CODE = 'STAFF_INFO';
