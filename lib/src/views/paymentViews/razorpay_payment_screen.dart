@@ -100,7 +100,10 @@ class _RazorPayPaymentScreenState extends State<RazorPayPaymentScreen> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => PaymentResult(isSuccess: false),
+          builder: (context) => PaymentResult(
+            isSuccess: false,
+            mainModel: widget.model,
+          ),
         ));
   }
 

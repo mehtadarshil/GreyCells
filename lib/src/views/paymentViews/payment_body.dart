@@ -130,18 +130,20 @@ class _MyPaymentScreenState extends State<PaymentBodyView> {
   }
 
   void _onProceedToPay() {
-    Navigator.of(context)
-        .push(MaterialPageRoute(
-            builder: (_) => PaymentConfirmationScreen(
-                model: widget.model,
-                dueDetail: _dueDetail,
-                totalFeeAmount: _totalFeeAmount,
-                totalPayAbleAmount: widget.model!.totalPayableAmount,
-                payableFees: widget.model!.selectedPayableFees
+    if (widget.model!.selectedPayableFees.isNotEmpty) {
+      Navigator.of(context)
+          .push(MaterialPageRoute(
+              builder: (_) => PaymentConfirmationScreen(
+                  model: widget.model,
+                  dueDetail: _dueDetail,
+                  totalFeeAmount: _totalFeeAmount,
+                  totalPayAbleAmount: widget.model!.totalPayableAmount,
+                  payableFees: widget.model!.selectedPayableFees
 
 //              payableFees: <PayableFee>[_dueDetail.payableFeeDetails[0]],
-                )))
-        .then((value) {});
+                  )))
+          .then((value) {});
+    }
   }
 
   void _reset() {

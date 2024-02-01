@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:greycell_app/src/commons/widgets/not_found.dart';
 import 'package:greycell_app/src/commons/widgets/user_info.dart';
@@ -24,11 +26,9 @@ class _MyCourseViewsState extends State<MyCourseViews> {
   Future<ResponseMania>? _futureResponse;
   double minValue = 8.0;
   DateTime selectedWeekday = DateTime.now();
+  DateTime? customDate;
   TimeTableModel? timeTableModel;
   bool loading = false;
-
-  DateTime mostRecentSunday() => DateTime(DateTime.now().year,
-      DateTime.now().month, DateTime.now().day - DateTime.now().weekday % 7);
 
   void _onCreate(DateTime date) async {
     setState(() {
@@ -67,40 +67,77 @@ class _MyCourseViewsState extends State<MyCourseViews> {
         ),
         SizedBox(
           height: 30,
-          child: ListView.separated(
-            itemCount: 7,
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) {
-              var date = mostRecentSunday().add(Duration(days: index));
-              return GestureDetector(
-                onTap: () {
-                  onTap(date);
-                },
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: selectedWeekday.weekday == date.weekday
-                          ? Colors.blue
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: Colors.black, width: 0.5)),
-                  child: Text(
-                    DateFormat("EEEE").format(date),
-                    style: TextStyle(
-                        color: selectedWeekday.weekday == date.weekday
-                            ? Colors.white
-                            : Colors.black),
+          child: Wrap(
+            children: [0, 1, 2, 3].map((index) {
+              var date = index < 2
+                  ? DateTime.now().subtract(Duration(days: index == 0 ? 1 : 0))
+                  : DateTime.now().add(Duration(days: 1));
+
+              return StatefulBuilder(builder: (context, setState) {
+                return GestureDetector(
+                  onTap: () async {
+                    log(customDate.toString());
+                    if (index == 3) {
+                      var selectedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(100),
+                          lastDate: DateTime.now());
+                      if (selectedDate != null) {
+                        setState(
+                          () {
+                            customDate = selectedDate;
+                          },
+                        );
+                      }
+                    }
+                    if (customDate != null) {
+                      log(customDate.toString());
+                      onTap(index == 3 ? customDate! : date);
+                    } else {
+                      onTap(date);
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: index == 3 && customDate != null
+                            ? Colors.blue
+                            : DateFormat("dd-MM-yyyy")
+                                            .format(selectedWeekday) ==
+                                        DateFormat("dd-MM-yyyy").format(date) &&
+                                    index != 3
+                                ? Colors.blue
+                                : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.black, width: 0.5)),
+                    child: Text(
+                      index == 0
+                          ? "Yesterday"
+                          : index == 1
+                              ? "Today"
+                              : index == 2
+                                  ? "Tomorrow"
+                                  : customDate != null
+                                      ? DateFormat("dd-MM-yyyy")
+                                          .format(customDate!)
+                                      : "Select Date",
+                      style: TextStyle(
+                          color: index == 3 && customDate != null
+                              ? Colors.white
+                              : DateFormat("dd-MM-yyyy")
+                                              .format(selectedWeekday) ==
+                                          DateFormat("dd-MM-yyyy")
+                                              .format(date) &&
+                                      index != 3
+                                  ? Colors.white
+                                  : Colors.black),
+                    ),
                   ),
-                ),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                width: 10,
-              );
-            },
+                );
+              });
+            }).toList(),
           ),
         ),
         SizedBox(

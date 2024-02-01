@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:greycell_app/src/config/apiauth_config.dart';
 import 'package:greycell_app/src/manager/data_manager.dart';
@@ -56,6 +57,7 @@ mixin StudentService on DataManager {
 }
 
 void _saveToDevice(Student _student) async {
+  log(_student.toJson().toString(), name: "student_data");
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   prefs.setString("studentFirstName", "${_student.getFirstName}");
   prefs.setString("studentMiddleName", "${_student.getMiddleName ?? ''}");
@@ -64,7 +66,7 @@ void _saveToDevice(Student _student) async {
   prefs.setString("studentEmailDomain", "${_student.getEmailDomainId}");
   prefs.setString("studentImageUrl", _student.getWebPhotoPath!);
   prefs.setString("studentUserId", _student.getUserId!);
-
+  prefs.setString("studentId", _student.getStudentId ?? "");
   prefs.setString("studentAddress", _student.getAddress!);
   prefs.setString("studentGuardianAddress", _student.getGuardianAddress!);
   prefs.setString("studentMobileNo", _student.getMobileNo!);

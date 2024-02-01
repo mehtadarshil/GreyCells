@@ -124,17 +124,21 @@ mixin AccountService on DataManager {
   }
 
   Future<ReceiptModel?> getReceiptToView(
-      {required Map<String, dynamic> tokens, required String id}) async {
+      {required Map<String, dynamic> tokens,
+      required String id,
+      String? studendId}) async {
     URLQueryParams urlQueryParams = URLQueryParams();
     urlQueryParams.append("callback", "StudFeeReceipt");
     urlQueryParams.append("loginUserId", user?.getUserId);
     urlQueryParams.append("txtStudRegNo", user?.getUserId);
-    urlQueryParams.append("studentId", student?.getStudentId);
-    urlQueryParams.append("hdnTransactionId", id);
+    urlQueryParams.append("apiCode", "STDNFEE_RECEIPT_REPORT");
+    urlQueryParams.append("studentId", studendId);
+    urlQueryParams.append("hdnPaymentId", id);
     urlQueryParams.append("accessToken", tokens["accessToken"]);
-    var response =
-        await http.get(Uri.parse("${RestAPIs.Receipt_Url}?$urlQueryParams"));
-    log(response.body);
+    log(urlQueryParams.toString());
+    var response = await http
+        .get(Uri.parse("${RestAPIs.Fee_Receipt_To_View}?$urlQueryParams"));
+    log(response.request!.url.toString());
     RegExp regExp = RegExp(r'{.*}'); // Regular expression to match JSON object
 
     var match = regExp.firstMatch(response.body);

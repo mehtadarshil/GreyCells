@@ -51,6 +51,11 @@ class _PaymentResultState extends State<PaymentResult> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     onPressed: () async {
+                      if (!widget.isSuccess) {
+                        widget.mainModel!.selectedPayableFees = [];
+                        widget.mainModel!.totalPayableAmount = 0.0;
+                        Navigator.pop(context);
+                      }
                       if (widget.data != null) {
                         setState(() {
                           isLoading = true;

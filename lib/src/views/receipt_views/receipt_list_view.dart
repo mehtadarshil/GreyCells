@@ -245,12 +245,17 @@ class _ReceiptCardState extends State<ReceiptCard> {
                   var tokenResponse = await dataFilter.getToken(
                       serverUrl: RestAPIs.GREYCELL_TOKEN_URL,
                       apiCode: ApiAuth.STDNFEE_RECEIPT_REPORT);
-                  var data = await widget.mainModel.getReceiptToView(
-                      tokens: tokenResponse!, id: widget.data.elementAt(4));
-                  log((data?.toJson()).toString());
-                  if (data != null && data.getReportFilePath != null) {
-                    launchUrlString(data.getReportFilePath!,
-                        mode: LaunchMode.externalApplication);
+                  var student = await widget.mainModel.getStudentProfile();
+                  if (tokenResponse != null && student?.getStudentId != null) {
+                    var data = await widget.mainModel.getReceiptToView(
+                        tokens: tokenResponse,
+                        id: widget.data.elementAt(4),
+                        studendId: student?.getStudentId);
+                    log((data?.toJson()).toString());
+                    if (data != null && data.getReportFilePath != null) {
+                      launchUrlString(data.getReportFilePath!,
+                          mode: LaunchMode.externalApplication);
+                    }
                   }
                   setState(() {
                     loading = false;
