@@ -47,7 +47,11 @@ class MyNotFound extends StatelessWidget {
             width: 150.0,
             height: 40.0,
             child: ElevatedButton.icon(
-                onPressed: onRetry as void Function()?,
+                onPressed: () {
+                  if (onRetry != null) {
+                    onRetry!();
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueGrey[800]),
                 icon: Icon(Icons.refresh, color: Colors.white),

@@ -68,75 +68,84 @@ class _MyCourseViewsState extends State<MyCourseViews> {
         SizedBox(
           height: 30,
           child: Wrap(
+            runAlignment: WrapAlignment.center,
+            direction: Axis.vertical,
             children: [0, 1, 2, 3].map((index) {
               var date = index < 2
                   ? DateTime.now().subtract(Duration(days: index == 0 ? 1 : 0))
                   : DateTime.now().add(Duration(days: 1));
 
-              return StatefulBuilder(builder: (context, setState) {
-                return GestureDetector(
-                  onTap: () async {
-                    log(customDate.toString());
-                    if (index == 3) {
-                      var selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(100),
-                          lastDate: DateTime.now());
-                      if (selectedDate != null) {
-                        setState(
-                          () {
-                            customDate = selectedDate;
-                          },
-                        );
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: StatefulBuilder(builder: (context, setState) {
+                  return GestureDetector(
+                    onTap: () async {
+                      if (index == 3) {
+                        var selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(100),
+                            lastDate: DateTime.now());
+                        if (selectedDate != null) {
+                          setState(
+                            () {
+                              customDate = selectedDate;
+                            },
+                          );
+                        }
+                      } else {
+                        setState(() {
+                          customDate = null;
+                        });
                       }
-                    }
-                    if (customDate != null) {
-                      log(customDate.toString());
-                      onTap(index == 3 ? customDate! : date);
-                    } else {
-                      onTap(date);
-                    }
-                  },
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                        color: index == 3 && customDate != null
-                            ? Colors.blue
-                            : DateFormat("dd-MM-yyyy")
-                                            .format(selectedWeekday) ==
-                                        DateFormat("dd-MM-yyyy").format(date) &&
-                                    index != 3
-                                ? Colors.blue
-                                : Colors.transparent,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: Colors.black, width: 0.5)),
-                    child: Text(
-                      index == 0
-                          ? "Yesterday"
-                          : index == 1
-                              ? "Today"
-                              : index == 2
-                                  ? "Tomorrow"
-                                  : customDate != null
-                                      ? DateFormat("dd-MM-yyyy")
-                                          .format(customDate!)
-                                      : "Select Date",
-                      style: TextStyle(
+                      if (customDate != null) {
+                        log(customDate.toString());
+                        onTap(index == 3 ? customDate! : date);
+                      } else {
+                        onTap(date);
+                      }
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
                           color: index == 3 && customDate != null
-                              ? Colors.white
+                              ? Colors.blue
                               : DateFormat("dd-MM-yyyy")
                                               .format(selectedWeekday) ==
                                           DateFormat("dd-MM-yyyy")
                                               .format(date) &&
                                       index != 3
-                                  ? Colors.white
-                                  : Colors.black),
+                                  ? Colors.blue
+                                  : Colors.transparent,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.black, width: 0.5)),
+                      child: Text(
+                        index == 0
+                            ? "Yesterday"
+                            : index == 1
+                                ? "Today"
+                                : index == 2
+                                    ? "Tomorrow"
+                                    : customDate != null
+                                        ? DateFormat("dd-MM-yyyy")
+                                            .format(customDate!)
+                                        : "Select Date",
+                        style: TextStyle(
+                            color: index == 3 && customDate != null
+                                ? Colors.white
+                                : DateFormat("dd-MM-yyyy")
+                                                .format(selectedWeekday) ==
+                                            DateFormat("dd-MM-yyyy")
+                                                .format(date) &&
+                                        index != 3
+                                    ? Colors.white
+                                    : Colors.black),
+                      ),
                     ),
-                  ),
-                );
-              });
+                  );
+                }),
+              );
             }).toList(),
           ),
         ),
