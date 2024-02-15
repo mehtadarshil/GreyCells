@@ -85,7 +85,8 @@ class _MyCourseViewsState extends State<MyCourseViews> {
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(100),
-                            lastDate: DateTime.now());
+                            lastDate:
+                                DateTime.now().add(Duration(days: 36525)));
                         if (selectedDate != null) {
                           setState(
                             () {

@@ -205,6 +205,14 @@ class _MyQuickLinkstate extends State<MyQuickLinks> {
               var page;
               _userMenu = _menus![index];
               switch (_userMenu.mobileappMenuCode) {
+                case "VIEWCAL":
+                  {
+                    icon = Icons.list;
+                    page = MyCalendarEvent(
+                      model: model,
+                    );
+                  }
+                  break;
                 case "ATTENDANCE":
                   {
                     icon = Icons.assignment_turned_in;

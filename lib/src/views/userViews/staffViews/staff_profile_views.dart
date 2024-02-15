@@ -70,7 +70,7 @@ class _StaffProfileViewsState extends State<StaffProfileViews> {
       flexibleSpace: FlexibleSpaceBar(
           title: Text(
             "PROFILE",
-            style: TextStyle(color: Colors.grey[100]),
+            style: TextStyle(color: Colors.grey[100], fontSize: 16),
           ),
           centerTitle: true,
           collapseMode: CollapseMode.parallax,

@@ -16,8 +16,10 @@ class MyCustomCardTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final title = Theme.of(context).textTheme.titleMedium!;
-    final subhead = Theme.of(context).textTheme.headlineSmall!;
+    final title =
+        Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14);
+    final subhead =
+        Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 16);
 
     return Card(
       margin: EdgeInsets.symmetric(horizontal: minValue * 2),

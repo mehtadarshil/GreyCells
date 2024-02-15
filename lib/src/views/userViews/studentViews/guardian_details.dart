@@ -11,9 +11,13 @@ class MyGuardianDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle? subtitle = Theme.of(context).textTheme.titleSmall;
-    TextStyle title =
-        Theme.of(context).textTheme.headlineMedium!.apply(fontWeightDelta: 1);
-    TextStyle subhead = Theme.of(context).textTheme.titleSmall!;
+    TextStyle title = Theme.of(context)
+        .textTheme
+        .headlineMedium!
+        .apply(fontWeightDelta: 1)
+        .copyWith(fontSize: 16);
+    TextStyle subhead =
+        Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 14);
     Color color = Theme.of(context).primaryColorDark;
     Color? titleColor = Colors.blueGrey[700];
     Color subTitleColor = Colors.black38;

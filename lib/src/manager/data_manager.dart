@@ -50,8 +50,8 @@ mixin DataManager on Model {
 
   // *******************************//
   // Academic Calendar
-  late Map<DateTime?, List<AcademicEvent>> calendarEventList;
-  late List<AcademicEvent> originalEventList;
+  Map<DateTime?, List<AcademicEvent>> calendarEventList = {};
+  List<AcademicEvent> originalEventList = [];
 
   /// Calendar Actions
   late DateTime selectedCalendarDate;

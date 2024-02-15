@@ -64,6 +64,8 @@ class StackedBarChart extends StatelessWidget {
         domainFn: (TermDetails data, _) => data.monthName!.substring(0, 3),
         measureFn: (TermDetails data, _) => int.parse(data.totalClass!),
         labelAccessorFn: (datum, index) => datum.totalClass ?? "",
+        outsideLabelStyleAccessorFn: (datum, index) =>
+            charts.TextStyleSpec(fontSize: 11),
 //        colorFn: (TermDetails detail, _) =>
 //            charts.ColorUtil.fromDartColor(Colors.redAccent[100]),
         data: _totalClass,
@@ -74,6 +76,8 @@ class StackedBarChart extends StatelessWidget {
         measureFn: (TermDetails data, _) => int.parse(data.attendedClass!),
         data: _attended,
         labelAccessorFn: (datum, index) => datum.attendedClass ?? "",
+        outsideLabelStyleAccessorFn: (datum, index) =>
+            charts.TextStyleSpec(fontSize: 11),
 //        colorFn: (TermDetails detail, _) =>
 //            charts.ColorUtil.fromDartColor(Colors.indigo),
       ),

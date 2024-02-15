@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greycell_app/src/commons/widgets/error_data.dart';
 import 'package:greycell_app/src/commons/widgets/loader.dart';
-import 'package:greycell_app/src/config/apiauth_config.dart';
 import 'package:greycell_app/src/manager/main_model.dart';
 import 'package:greycell_app/src/models/examReportModel/exam_report_model.dart';
 import 'package:greycell_app/src/views/observer/future_observer.dart';
@@ -32,7 +31,7 @@ class _MyExamReportState extends State<MyExamReport> {
   List<AvailTerm>? availTermList = [];
   List<ExamList>? examList = [];
 
-  bool isLoading = false;
+  bool isLoading = true;
 
   String? _selectedValue = "";
   ExamList? _selectedEValue;
@@ -83,6 +82,9 @@ class _MyExamReportState extends State<MyExamReport> {
   }
 
   void _onCreate1() async {
+    setState(() {
+      isLoading = true;
+    });
     examList = [];
     _reportCard = null;
     print(_selectedValue);
@@ -319,7 +321,7 @@ class _MyExamReportState extends State<MyExamReport> {
                 return Loader();
               },
               onSuccess: (context, ExamReport exam) {
-                if (exam == null) {
+                if (exam.availTerm == null) {
                   return Container(
                     child: MyErrorData(
                       onReload: () => null,

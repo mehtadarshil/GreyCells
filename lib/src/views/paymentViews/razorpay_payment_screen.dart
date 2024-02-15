@@ -86,7 +86,6 @@ class _RazorPayPaymentScreenState extends State<RazorPayPaymentScreen> {
         print("callback ${callbackRes.body}");
       } catch (e) {}
     }
-    print((response.paymentId ?? "") + "Payment Success");
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -97,6 +96,8 @@ class _RazorPayPaymentScreenState extends State<RazorPayPaymentScreen> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     _razorpay.clear();
+    widget.model.selectedPayableFees = [];
+    widget.model.totalPayableAmount = 0.0;
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(

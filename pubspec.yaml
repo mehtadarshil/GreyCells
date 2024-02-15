@@ -1,6 +1,6 @@
 name: greycell_app
 description: GreyCells application.
-version: 1.3.10+10
+version: 1.3.11+11
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

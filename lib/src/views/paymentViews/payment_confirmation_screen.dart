@@ -32,6 +32,10 @@ class PaymentConfirmationScreen extends StatelessWidget {
           child: Text("Are you sure, you want to go back?"),
         ),
         onSubmit: () {
+          if (model != null) {
+            model!.selectedPayableFees = [];
+            model!.totalPayableAmount = 0.0;
+          }
           Navigator.of(context).pop();
           Navigator.of(context).pop();
         });
