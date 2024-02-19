@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:greycell_app/src/config/apiauth_config.dart';
 import 'package:greycell_app/src/manager/data_manager.dart';
@@ -38,6 +39,7 @@ mixin CalendarService on DataManager {
               callback: ApiAuth.ACADEMIC_CALENDAR_CALLBACKS,
               response: _response.body);
           _eventFilter = EventFilter();
+          log(jsonResponse);
           final Map<String, dynamic> content = json.decode(jsonResponse);
           if (content.containsKey('isSuccess') && content['isSuccess']) {
             // Data Exist

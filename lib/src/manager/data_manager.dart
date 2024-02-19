@@ -162,7 +162,7 @@ mixin DataHandler on Model, DataManager {
 //    keepFirstDateSafe = first;
 //    keepEndDateSafe = last;
     selectedCalendarEvents = List.from(test);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void onResetToDefault() {

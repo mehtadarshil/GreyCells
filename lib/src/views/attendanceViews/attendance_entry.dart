@@ -526,7 +526,8 @@ class _MyAttendanceEntryState extends State<MyAttendanceEntry> {
     final hedS = Theme.of(context)
         .textTheme
         .headlineMedium!
-        .apply(color: Colors.blueGrey);
+        .apply(color: Colors.blueGrey)
+        .copyWith(fontSize: 15);
     return ListView(
       children: <Widget>[
         Row(
@@ -921,7 +922,8 @@ class _MyAttendanceEntryState extends State<MyAttendanceEntry> {
                       onReload: () => null,
                     ),
                   );
-                } else                return _buildGraphCard();
+                } else
+                  return _buildGraphCard();
 
                 return _buildBody();
               },

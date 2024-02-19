@@ -36,8 +36,11 @@ class MyCalendar extends StatelessWidget {
             SizedBox(height: 65),
             TableCalendar(
               rowHeight: 40.0,
-              onDaySelected: (DateTime day, lst) =>
-                  _onDaySelected(day, model.calendarEventList[day]!, model),
+              onDaySelected: (DateTime day, lst) {
+                if (model.calendarEventList[day] != null) {
+                  _onDaySelected(day, model.calendarEventList[day]!, model);
+                }
+              },
               onDayLongPressed: (selectedDay, focusedDay) => _onDayLongpressed(
                   selectedDay,
                   model.calendarEventList[selectedDay],
@@ -45,7 +48,9 @@ class MyCalendar extends StatelessWidget {
               onHeaderLongPressed: _onHeaderLongPressed,
               onHeaderTapped: _onHeaderTapped,
               onDisabledDayLongPressed: _onUnavailableDayLongPressed,
-              onPageChanged: model.onMonthChanged,
+              onPageChanged: (focusedDay) {
+                model.onMonthChanged(focusedDay);
+              },
               eventLoader: (day) => model.calendarEventList[day] ?? [],
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: CalendarStyle(
@@ -84,9 +89,9 @@ class MyCalendar extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16.0),
                 ),
               ),
-              firstDay: DateTime.now(),
+              firstDay: DateTime(100),
               focusedDay: DateTime.now(),
-              lastDay: DateTime.now(),
+              lastDay: DateTime.now().add(Duration(days: 36500)),
             ),
           ],
         );
